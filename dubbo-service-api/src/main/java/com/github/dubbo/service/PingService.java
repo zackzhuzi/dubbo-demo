@@ -1,5 +1,7 @@
 package com.github.dubbo.service;
 
+import model.Response;
+
 /**
  * Hello World
  * 
@@ -10,5 +12,5 @@ public interface PingService {
     /**
      * 打印服务提供者IP
      */
-    public String showServiceIp();
+    public Response showServiceIp();
 }

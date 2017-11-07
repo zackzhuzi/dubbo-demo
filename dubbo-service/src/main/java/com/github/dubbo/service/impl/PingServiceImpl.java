@@ -5,9 +5,10 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
+import model.Response;
+
 import org.springframework.stereotype.Component;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.github.dubbo.service.PingService;
 
 /**
@@ -16,13 +17,12 @@ import com.github.dubbo.service.PingService;
  * @author yuzhupeng
  */
 @Component
-@Service(version = "1.0")
 public class PingServiceImpl implements PingService {
 
     /**
      * 打印服务提供者IP
      */
-    public String showServiceIp() {
+    public Response showServiceIp() {
         try {
             Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
             InetAddress ip = null;
@@ -32,7 +32,10 @@ public class PingServiceImpl implements PingService {
                 while (addresses.hasMoreElements()) {
                     ip = (InetAddress) addresses.nextElement();
                     if (ip != null && ip instanceof Inet4Address) {
-                        return ip.getHostAddress();
+                        Response response = new Response();
+                        response.setName("IPADRRESS");
+                        response.setIpAdrress(ip.getHostAddress());
+                        return response;
                     }
                 }
             }

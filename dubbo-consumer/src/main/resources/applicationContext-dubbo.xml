@@ -11,9 +11,10 @@
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" />
 	<!-- 另外开发、测试环境可通过指定Url方式绕过注册中心直连指定的服务地址，避免注册中心中服务过多，启动建立连接时间过长 -->
-<!-- 	<dubbo:reference interface="com.github.dubbo.service.PingService"
-		version="1.0" id="pingService" url="dubbo://127.0.0.1:20880/"></dubbo:reference> -->
+	<!-- <dubbo:reference interface="com.github.dubbo.service.PingService" version="1.0" 
+		id="pingService" url="dubbo://127.0.0.1:20880/"></dubbo:reference> -->
 
+	<dubbo:monitor protocol="registry" />
 	<!-- 生成远程服务代理，可以像使用本地bean一样使用demoService -->
 	<dubbo:reference interface="com.github.dubbo.service.PingService"
 		version="1.0" id="pingService" />
