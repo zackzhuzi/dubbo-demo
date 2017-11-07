@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dubbo</groupId>
-	<artifactId>dubbo-demo</artifactId>
+	<artifactId>dubbo-zack-test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
@@ -13,9 +13,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<springframework.version>4.1.3.RELEASE</springframework.version>
+		<springframework.version>4.3.8.RELEASE</springframework.version>
 		<netty-version>4.0.0.Alpha8</netty-version>
-		<dubbox.version>2.8.3</dubbox.version>
+		<dubbox.version>2.5.3</dubbox.version>
+		<log4j2.version>2.8.2</log4j2.version>
 	</properties>
 
 	<dependencies>
@@ -66,6 +67,22 @@
 			<artifactId>zkclient</artifactId>
 			<version>0.1</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jcl</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
 	</dependencies>
 
 </project>

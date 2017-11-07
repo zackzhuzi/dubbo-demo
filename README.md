@@ -1,1 +1,1 @@
-dubbo + springMVC + netty
+dubbo + springMVC

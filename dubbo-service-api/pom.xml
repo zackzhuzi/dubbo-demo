@@ -4,7 +4,7 @@
 
 	<parent>
 		<groupId>com.github.dubbo</groupId>
-		<artifactId>dubbo-demo</artifactId>
+		<artifactId>dubbo-zack-test</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>dubbo-service-api</artifactId>

@@ -5,14 +5,13 @@
 	<parent>
 		<groupId>com.github.dubbo</groupId>
 		<version>0.0.1-SNAPSHOT</version>
-		<artifactId>dubbo-demo</artifactId>
+		<artifactId>dubbo-zack-test</artifactId>
 	</parent>
 	<artifactId>dubbo-service</artifactId>
 	<packaging>jar</packaging>
 
 	<name>dubbo-service</name>
 	<url>http://maven.apache.org</url>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.github.dubbo</groupId>
@@ -20,4 +19,47 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+
+	<!-- <build>
+		<resources>
+			<resource>
+				<targetPath>target/classes</targetPath>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			结合com.alibaba.dubbo.container.Main，需要重点掌握
+			<resource>
+				<targetPath>target/classes/META-INF/spring</targetPath>
+				<directory>src/main/resources/spring</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>spring-context.xml</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			打包jar文件时，配置manifest文件，加入lib包的jar依赖
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<classesDirectory>target/classes/</classesDirectory>
+					<archive>
+						<manifest>
+							<mainClass>com.alibaba.dubbo.container.Main</mainClass>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+						</manifest>
+						<manifestEntries>
+							<Class-Path>.</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build> -->
 </project>

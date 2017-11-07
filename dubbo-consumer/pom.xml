@@ -5,7 +5,7 @@
 	<parent>
 		<version>0.0.1-SNAPSHOT</version>
 		<groupId>com.github.dubbo</groupId>
-		<artifactId>dubbo-demo</artifactId>
+		<artifactId>dubbo-zack-test</artifactId>
 	</parent>
 	<artifactId>dubbo-consumer</artifactId>
 	<packaging>jar</packaging>
