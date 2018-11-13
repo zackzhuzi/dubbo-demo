@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.dubbo.mapper.GoodsInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.github.dubbo.model.GoodsInfo">
+		<id column="id" property="id" />
+		<result column="category_id" property="categoryId" />
+		<result column="brand_id" property="brandId" />
+		<result column="goods_name" property="goodsName" />
+		<result column="goods_desc" property="goodsDesc" />
+		<result column="status" property="status" />
+		<result column="ent_goods_code" property="entGoodsCode" />
+		<result column="create_user" property="createUser" />
+		<result column="create_date" property="createDate" />
+		<result column="mod_date" property="modDate" />
+		<result column="mod_user_id" property="modUserId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,category_id,brand_id,goods_name,goods_desc,status,ent_goods_code,create_user,create_date,mod_date,mod_user_id
+	</sql>
+
+</mapper>

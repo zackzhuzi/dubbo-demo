@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<context:property-placeholder location="classpath:config/*.properties" />
+	<bean id="configurationProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:config/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="preferencesPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="properties" ref="configurationProperties" />
+	</bean>
+
+	<bean class="com.github.dubbo.commons.utils.PropertyConfigurer">
+		<property name="properties" ref="configurationProperties" />
+	</bean>
+	<context:annotation-config />
+	<!-- 扫描service -->
+	<context:component-scan
+		base-package="com.github.dubbo.facade;com.github.dubbo.service;com.github.dubbo.webmagic" />
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/cache
+       http://www.springframework.org/schema/cache/spring-cache.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="redisClusterCacheService"
+		class="com.github.dubbo.cache.rediscluster.RedisClusterFactoryBean">
+		<constructor-arg>
+			<props>
+				<prop key="servers">${redis.servers}</prop>
+				<prop key="redis.maxWaitMillis">${redis.pool.maxWait}</prop>
+				<prop key="redis.maxTotal">${redis.pool.maxActive}</prop>
+				<prop key="redis.minIdle">${redis.pool.minIdle}</prop>
+				<prop key="redis.maxIdle">${redis.pool.maxIdle}</prop>
+				<prop key="redis.testOnBorrow">${redis.pool.testOnBorrow}</prop>
+				<prop key="redis.testOnReturn">${redis.pool.testOnReturn}</prop>
+				<prop key="redis.connectionTimeout">${redis.connectionTimeout}</prop>
+				<prop key="redis.cluster.soTimeout">${redis.cluster.soTimeout}</prop>
+				<prop key="redis.cluster.maxRedirections">${redis.cluster.maxRedirections}</prop>
+				<prop key="cache.on">${redis.cache.on}</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+</beans>

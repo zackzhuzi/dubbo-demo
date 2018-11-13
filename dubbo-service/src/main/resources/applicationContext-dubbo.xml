@@ -8,21 +8,21 @@
        http://www.springframework.org/schema/context/spring-context.xsd
        http://code.alibabatech.com/schema/dubbo
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-	<!-- 具体实现的Bean -->
-	<!-- <bean id="pingService" class="com.github.dubbo.service.impl.PingServiceImpl" 
-		/> -->
-	<context:component-scan base-package="com.github.dubbo.service.impl" />
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<dubbo:application name="dubbo-test-service" />
+	<dubbo:application name="dubbo-test-service" owner="yuzhu.peng"/>
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
-	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" />
+	<dubbo:registry protocol="zookeeper"
+		address="127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183" />
 	<!-- 用dubbo协议在20880端口暴露服务 -->
 	<dubbo:protocol name="dubbo" port="20880"
-		accesslog="D:/logs/dubbo-demo/access.log" />
+		accesslog="D:/logs/dubbo-demo/access.log" threads="100"/>
 
 	<dubbo:monitor protocol="registry" />
 	<!-- 声明需要暴露的服务接口 -->
-	<dubbo:service interface="com.github.dubbo.service.PingService"
-		ref="pingServiceImpl" version="1.0" />
+	<dubbo:service interface="com.github.dubbo.facade.PingFacade"
+		ref="pingFacadeImpl" version="1.0" timeout="6000" delay="-1" retries="3" />
+	<dubbo:service interface="com.github.dubbo.facade.GoodsFacade"
+		ref="goodsFacadeImpl" version="1.0" timeout="6000" delay="-1" token="true"
+		retries="3" executes="100"/>
 
 </beans>

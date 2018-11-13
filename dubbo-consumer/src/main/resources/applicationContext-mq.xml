@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<!-- 配置JMS连接工厂 -->
+	<bean id="defaultConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+		<property name="brokerURL"
+			value="failover:(tcp://localhost:61616,tcp://localhost:61617,tcp://localhost:61618)?initialReconnectDelay=1000" />
+		<!-- <property name="brokerURL" value="tcp://localhost:61616" /> -->
+		<property name="redeliveryPolicy" ref="activeMQRedeliveryPolicy" />
+	</bean>
+	<!--ReDelivery(重新投递)。当消费者在处理消息时有异常发生，会将消息重新放回Queue里，进行下一次处理。当超过重试次数时，消息会被放置到一个特殊的Queue中，即Dead 
+		Letter Queue,简称DLQ，用于进行后续分析 -->
+	<amq:redeliveryPolicy id="activeMQRedeliveryPolicy"
+		queue="dead-letter-queue" redeliveryDelay="10000" maximumRedeliveries="3" />
+
+	<!-- 消息连接池工厂 -->
+	<bean id="pooledSendConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+		<property name="connectionFactory" ref="defaultConnectionFactory" />
+		<!-- 连接数量 -->
+		<property name="maxConnections" value="10" />
+		<!-- 超时时间，最后使用时间+idleTimeout>当前时间，连接关闭 -->
+		<property name="idleTimeout" value="30000" />
+		<!-- 回收时间，连接创建时间+expiryTimeout>当前时间，连接关闭 -->
+		<property name="expiryTimeout" value="30000" />
+		<!-- 如果连接池是满的,则阻塞 -->
+		<property name="blockIfSessionPoolIsFull" value="true" />
+		<property name="maximumActiveSessionPerConnection" value="50"></property>
+	</bean>
+
+	<!-- 配置JMS模版 -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="pooledSendConnectionFactory" />
+		<property name="defaultDestinationName" value="default_queue" />
+		<!-- <property name="sessionAcknowledgeModeName" value="AUTO_ACKNOWLEDGE" 
+			/> -->
+		<!-- 开启事务，则Ack无效 -->
+		<property name="sessionTransacted" value="true"></property>
+		<!-- 由于receive方法是同步的，所以我们在这里对接收设置超时时间 -->
+		<property name="receiveTimeout" value="60000" />
+		<!-- 1不持久化 2持久化(默认) -->
+		<!-- <property name="deliveryMode" value="2" /> -->
+	</bean>
+	<!-- 消息生产者 -->
+	<bean id="producer" class="com.github.dubbo.mq.Producer" />
+</beans>

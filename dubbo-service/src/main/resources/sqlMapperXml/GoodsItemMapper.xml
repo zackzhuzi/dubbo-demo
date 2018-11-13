@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.dubbo.mapper.GoodsItemMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.github.dubbo.model.GoodsItem">
+		<id column="id" property="id" />
+		<result column="goods_item_name" property="goodsItemName" />
+		<result column="goods_id" property="goodsId" />
+		<result column="price" property="price" />
+		<result column="market_price" property="marketPrice" />
+		<result column="shop_price" property="shopPrice" />
+		<result column="status" property="status" />
+		<result column="create_date" property="createDate" />
+		<result column="update_date" property="updateDate" />
+		<result column="category_id" property="categoryId" />
+		<result column="brand_id" property="brandId" />
+		<result column="stock" property="stock" />
+	</resultMap>
+
+	<select id="selectGoodsItemIds" resultType="java.lang.Integer">
+		select
+		id
+		from goods_item
+		where 1=1
+		<if test="categoryId > 0"> and category_id = #{categoryId}</if>
+		<if test="brandId > 0"> and brand_id = #{brandId}</if>
+		<if test="count > 0"> limit #{start},#{count}</if>
+	</select>
+
+	<select id="selectGoodsItemIdsWithSaleCount" resultType="com.github.dubbo.cache.SortedItem">
+		SELECT
+		t.id AS value,
+		CASE WHEN s.sale_count IS NULL THEN 0 ELSE
+		s.sale_count END AS score
+		FROM goods_item t LEFT JOIN goods_item_stat s
+		ON t.id = s.goods_item_id
+		<if test="count > 0"> limit #{start},#{count}</if>
+	</select>
+
+	<select id="selectGoodsItemIdsWithPublishTime" resultType="com.github.dubbo.cache.SortedItem">
+		select
+		id AS value, UNIX_TIMESTAMP(create_date) as score
+		from goods_item
+		<if test="count > 0"> limit #{start},#{count}</if>
+	</select>
+	<!-- 乐观锁 -->
+	<update id="updateStock">
+		update goods_item set stock=stock -
+		#{count} where
+		id=#{goodsItemId}
+	</update>
+
+	<select id="selectStockAndSaleCount" resultType="com.github.dubbo.model.GoodsItemStatVo">
+		SELECT
+		t.id AS
+		goodsItemId,
+		t.stock AS stock,
+		CASE WHEN s.sale_count IS NULL THEN 0
+		ELSE
+		s.sale_count END AS saleCount
+		FROM goods_item t LEFT JOIN
+		goods_item_stat s
+		ON t.id = s.goods_item_id
+	</select>
+</mapper>
